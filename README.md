@@ -55,16 +55,27 @@
 
 ## 安装方法
 
-### 方式一：直接下载（推荐）
+### 方式一：DMG 安装（推荐）
 
-前往 [GitHub Releases](https://github.com/toddwyl/ScreenControl/releases) 下载最新版本的 `ScreenControl.app.zip`：
+前往 [GitHub Releases](https://github.com/toddwyl/ScreenControl/releases) 下载最新版本的 `ScreenControl.dmg`：
+
+1. 下载 `ScreenControl.dmg` 并双击打开
+2. 将 **ScreenControl** 图标拖拽到右侧的 **Applications** 文件夹
+3. 在启动台中找到 ScreenControl 并打开
+4. 首次运行时，前往 **系统设置 → 隐私与安全** 点击「仍要打开」
+5. （可选）如需键盘锁定功能，授予辅助功能权限
+
+![安装演示](https://user-images.githubusercontent.com/placeholder/dmg-install.png)
+
+### 方式二：直接下载 App
+
+如果不方便使用 DMG，也可以下载 `ScreenControl.app.zip`：
 
 1. 下载并解压 `ScreenControl.app.zip`
 2. 将 `ScreenControl.app` 拖入 **应用程序** 文件夹
 3. 首次运行时，前往 **系统设置 → 隐私与安全** 点击「仍要打开」
-4. （可选）如需键盘锁定功能，授予辅助功能权限
 
-### 方式二：从源码编译
+### 方式三：从源码编译
 
 ```bash
 # 1. 克隆仓库
