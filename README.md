@@ -30,9 +30,11 @@
 ## 系统要求
 
 - macOS 12.0 或更高版本
-- 需要 Xcode 命令行工具（用于编译）
+- 需要 Xcode 命令行工具（仅编译时需要）
 
 ## 依赖项
+
+### 系统框架
 
 本项目使用原生 Swift 开发，依赖以下 macOS 系统框架：
 
@@ -40,11 +42,29 @@
 - **UserNotifications** — 系统通知
 - **IOKit** — 电源管理（防止系统休眠）
 
+### 系统命令
+
+应用依赖以下 macOS 内置命令行工具：
+
+- **`/usr/bin/caffeinate`** — 防止系统休眠（macOS 内置，所有 Mac 都自带）
+- **`/usr/bin/pmset`** — 控制显示器睡眠（macOS 内置）
+
+**注意**：caffeinate 和 pmset 是 macOS 系统自带的命令，无需额外安装。如果系统缺少这些命令，请检查系统完整性或重装 macOS。
+
 无需安装第三方库。
 
 ## 安装方法
 
-### 方式一：从源码编译（推荐）
+### 方式一：直接下载（推荐）
+
+前往 [GitHub Releases](https://github.com/toddwyl/ScreenControl/releases) 下载最新版本的 `ScreenControl.app.zip`：
+
+1. 下载并解压 `ScreenControl.app.zip`
+2. 将 `ScreenControl.app` 拖入 **应用程序** 文件夹
+3. 首次运行时，前往 **系统设置 → 隐私与安全** 点击「仍要打开」
+4. （可选）如需键盘锁定功能，授予辅助功能权限
+
+### 方式二：从源码编译
 
 ```bash
 # 1. 克隆仓库
