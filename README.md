@@ -1,198 +1,101 @@
-# ScreenControl
+<p align="center">
+  <img src="assets/readme-icon.png" width="128" height="128" alt="KeepAgentAwake app icon" />
+</p>
 
-一个让 Mac 电脑一键熄屏但不休眠，同时关闭键盘背光的原生应用。支持两种模式：熄屏模式和永不熄屏模式。
+<h1 align="center">KeepAgentAwake</h1>
 
-## 功能特性
+<p align="center">
+  <strong>原生 Swift / SwiftUI 菜单栏工具</strong>：在需要时防止 Mac 因空闲进入睡眠，并支持可配置的空闲熄屏、键盘背光调节与合盖相关电源选项。
+</p>
 
-### ☕ 永不熄屏模式
-- 保持屏幕常亮不熄灭
-- 防止系统自动休眠
-- 适合长时间阅读、监控、演示等场景
-
-### 🌙 熄屏模式
-- 关闭显示器 + 键盘背光
-- 锁定键盘输入（防止误触唤醒）
-- 系统保持运行（不休眠）
-- 自动重新熄屏（屏幕意外亮起时）
-
-### ⌨️ 快捷键
-- **⌘⇧P** — 切换永不熄屏模式（全局有效）
-- **⌘⇧L** — 切换熄屏/正常模式（全局有效）
-- **⌘⌃⎋** — 紧急退出熄屏模式
-- 左键点击状态栏 — 切换模式
-- 右键点击状态栏 — 打开菜单
-
-### 📊 状态栏图标
-- **☀️** — 正常模式
-- **☕** — 永不熄屏模式
-- **🌙** — 熄屏模式
-
-## 系统要求
-
-- macOS 12.0 或更高版本
-- 需要 Xcode 命令行工具（仅编译时需要）
-
-## 依赖项
-
-### 系统框架
-
-本项目使用原生 Swift 开发，依赖以下 macOS 系统框架：
-
-- **Cocoa** — macOS 应用 UI 框架
-- **UserNotifications** — 系统通知
-- **IOKit** — 电源管理（防止系统休眠）
-
-### 系统命令
-
-应用依赖以下 macOS 内置命令行工具：
-
-- **`/usr/bin/caffeinate`** — 防止系统休眠（macOS 内置，所有 Mac 都自带）
-- **`/usr/bin/pmset`** — 控制显示器睡眠（macOS 内置）
-
-**注意**：caffeinate 和 pmset 是 macOS 系统自带的命令，无需额外安装。如果系统缺少这些命令，请检查系统完整性或重装 macOS。
-
-无需安装第三方库。
-
-## 安装方法
-
-### 方式一：DMG 安装（推荐）
-
-前往 [GitHub Releases](https://github.com/toddwyl/ScreenControl/releases) 下载最新版本的 `ScreenControl.dmg`：
-
-1. 下载 `ScreenControl.dmg` 并双击打开
-2. 将 **ScreenControl** 图标拖拽到右侧的 **Applications** 文件夹
-3. 在启动台中找到 ScreenControl 并打开
-4. 首次运行时，前往 **系统设置 → 隐私与安全** 点击「仍要打开」
-5. （可选）如需键盘锁定功能，授予辅助功能权限
-
-![安装演示](https://user-images.githubusercontent.com/placeholder/dmg-install.png)
-
-### 方式二：直接下载 App
-
-如果不方便使用 DMG，也可以下载 `ScreenControl.app.zip`：
-
-1. 下载并解压 `ScreenControl.app.zip`
-2. 将 `ScreenControl.app` 拖入 **应用程序** 文件夹
-3. 首次运行时，前往 **系统设置 → 隐私与安全** 点击「仍要打开」
-
-### 方式三：从源码编译
-
-```bash
-# 1. 克隆仓库
-git clone https://github.com/YOUR_USERNAME/ScreenControl.git
-cd ScreenControl
-
-# 2. 编译应用
-chmod +x build.sh
-./build.sh
-
-# 3. 安装到应用程序文件夹
-cp -r build/ScreenControl.app /Applications/
-
-# 4. 运行应用
-open /Applications/ScreenControl.app
-```
-
-### 方式二：手动编译
-
-```bash
-# 创建应用目录结构
-mkdir -p build/ScreenControl.app/Contents/MacOS
-mkdir -p build/ScreenControl.app/Contents/Resources
-
-# 编译 Swift 代码
-swiftc -O -o build/ScreenControl.app/Contents/MacOS/ScreenControl \
-    -framework Cocoa \
-    -framework UserNotifications \
-    -framework IOKit \
-    -parse-as-library \
-    ScreenControlApp.swift
-
-# 复制配置文件
-cp Info.plist build/ScreenControl.app/Contents/
-echo "APPL????" > build/ScreenControl.app/Contents/PkgInfo
-
-# 运行
-open build/ScreenControl.app
-```
-
-### 方式三：复制到 /Applications
-
-编译完成后，直接复制到应用程序文件夹：
-
-```bash
-cp -r build/ScreenControl.app /Applications/
-```
-
-## 首次使用
-
-### 1. 授予辅助功能权限
-
-**键盘锁定功能需要辅助功能权限：**
-
-1. 打开 **系统设置** → **隐私与安全** → **辅助功能**
-2. 点击 **+** 按钮
-3. 选择 **ScreenControl** 应用并启用
-
-### 2. 添加到登录项（可选）
-
-让 ScreenControl 随系统启动：
-
-1. 打开 **系统设置** → **通用** → **登录项**
-2. 点击 **+** 按钮
-3. 选择 **ScreenControl.app**
-
-## 使用场景
-
-- **下载大文件时** — 熄屏模式，让 Mac 安静工作
-- **编译、渲染等长时间任务** — 熄屏模式，节省电量
-- **防止猫咪踩键盘捣乱** — 熄屏模式，锁定键盘
-- **长时间阅读/监控/演示** — 永不熄屏模式
-
-## 设置选项
-
-右键点击状态栏图标打开菜单，可以调整：
-
-- **🔒 锁定键盘输入** — 拦截所有键盘输入（需要辅助功能权限）
-- **🔄 自动重新熄屏** — 屏幕意外唤醒后自动关闭
-- **⏱ 显示计时器** — 状态栏显示运行时长
-
-## 安全说明
-
-- 键盘锁定仅在 ScreenControl 运行时有效
-- 如果应用意外退出，键盘自动恢复正常
-- 鼠标始终可用，可点击状态栏退出
-
-## 文件说明
-
-```
-ScreenControl/
-├── ScreenControlApp.swift    # 主程序源码
-├── Info.plist                # 应用配置
-├── build.sh                  # 编译脚本
-└── README.md                 # 本文件
-```
-
-## 卸载
-
-```bash
-# 删除应用
-rm -rf /Applications/ScreenControl.app
-
-# 删除辅助功能权限（可选）
-# 系统设置 → 隐私与安全 → 辅助功能 → 移除 ScreenControl
-```
-
-## License
-
-MIT License
-
-## 版本历史
-
-- **v2.1** — 新增永不熄屏模式，优化键盘锁定
-- **v2.0** — 原生 Swift 重写，支持键盘锁定
-- **v1.0** — Python 原型版本
+<p align="center">
+  <a href="https://github.com/toddwyl/KeepAgentAwake/releases">Releases</a>
+  ·
+  <a href="#从源码构建">从源码构建</a>
+</p>
 
 ---
 
-Made with ❤️ for Mac users
+## 概览
+
+KeepAgentAwake 以**菜单栏图标**为主界面（`LSUIElement`，不占用 Dock），提供「**永不休眠**」开关与可选设置页。适合长时间下载、编译、演示或需要避免系统自动睡眠、又希望空闲时能关屏省电的场景。
+
+> [!NOTE]
+> 本应用通过 **IOKit 电源断言**、`caffeinate`、`pmset` 等系统能力工作；合盖相关选项若启用 `pmset disablesleep`，**仅在系统状态需要改变时**才会请求管理员密码（会先读取当前 `pmset` 状态再决定是否提权执行）。
+
+---
+
+## 功能
+
+| 能力 | 说明 |
+|------|------|
+| **永不休眠** | 防止系统因**空闲**进入睡眠；可与「空闲后熄屏」组合，减轻长期强制亮屏带来的闪烁。 |
+| **空闲熄屏** | 可设定空闲若干秒/分钟后关闭显示器（或设为「永不」）；有操作时保持亮屏。 |
+| **键盘背光** | 在空闲触发熄屏时，可自动模拟多次「背光减小」键（效果因机型与系统策略而异）。 |
+| **合盖电源** | 可选通过 `pmset -a disablesleep` 影响合盖行为（需管理员授权，详见应用内说明）。 |
+| **快捷键** | **⌘⇧P** 切换永不休眠；**⌘⌃⎋** 在开启时紧急关闭永不休眠。 |
+| **菜单栏** | 左键：若存在主窗口则在显示/隐藏主窗口间切换，否则切换永不休眠；右键打开菜单。 |
+
+状态栏图标会随模式变化（例如「系统默认」与「永不休眠」等），并可选择在状态栏显示已运行时长。
+
+---
+
+## 系统要求
+
+- **macOS 13** 或更高（与 `Info.plist` 中 `LSMinimumSystemVersion` 一致）
+- **Xcode / Swift 命令行工具**（仅本地编译时需要）
+
+---
+
+## 从源码构建
+
+需要已安装 Swift 与 `swiftc`（Xcode Command Line Tools）。
+
+```bash
+git clone https://github.com/toddwyl/KeepAgentAwake.git
+cd KeepAgentAwake
+chmod +x build.sh
+./build.sh
+```
+
+构建成功后，应用位于 `build/KeepAgentAwake.app`：
+
+```bash
+open build/KeepAgentAwake.app
+```
+
+也可将 `KeepAgentAwake.app` 拷贝到 `/Applications/` 使用。
+
+> [!TIP]
+> `build.sh` 会调用 `tools/RenderAppIcon.swift` 生成图标并编译 `KeepAgentAwakeMain.swift`、`KeepAgentAwakeViews.swift`、`KeepAgentAwakeDelegate.swift`，无需 CocoaPods / SPM 依赖。
+
+---
+
+## 权限与隐私
+
+- **自动化 / Apple Events**：调暗键盘背光等功能可能触发系统对「控制其他应用」或相关自动化权限的提示，请以系统实际对话框为准。
+- **管理员密码**：仅在为使系统 `disablesleep` 等状态与选项一致而**必须**修改时，通过 AppleScript 请求提权；应用会尽量先读取当前电源设置再决定是否弹窗。
+- 若曾使用旧版 **ScreenControl**，首次启动会从 `ScreenControl.*` 的 UserDefaults 键**迁移**到 `KeepAgentAwake.*`（新键不存在时复制），避免丢失偏好设置。
+
+---
+
+## 仓库结构
+
+```
+KeepAgentAwake/
+├── KeepAgentAwakeMain.swift    # SwiftUI @main 入口
+├── KeepAgentAwakeViews.swift   # 主窗口界面
+├── KeepAgentAwakeDelegate.swift # AppDelegate、电源与菜单栏逻辑
+├── Info.plist
+├── build.sh
+├── tools/
+│   └── RenderAppIcon.swift     # 构建时生成 AppIcon
+└── assets/
+    └── readme-icon.png         # README 用图标
+```
+
+---
+
+## 卸载
+
+从「应用程序」中移除 `KeepAgentAwake.app` 即可。若曾在系统设置中为该应用授予过辅助功能、自动化等权限，可在 **系统设置 → 隐私与安全性** 中按需移除。

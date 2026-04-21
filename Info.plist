@@ -5,26 +5,28 @@
     <key>CFBundleDevelopmentRegion</key>
     <string>zh_CN</string>
     <key>CFBundleExecutable</key>
-    <string>ScreenControl</string>
+    <string>KeepAgentAwake</string>
+    <key>CFBundleIconFile</key>
+    <string>AppIcon</string>
     <key>CFBundleIdentifier</key>
-    <string>com.user.screencontrol</string>
+    <string>com.user.keepagentawake</string>
     <key>CFBundleInfoDictionaryVersion</key>
     <string>6.0</string>
     <key>CFBundleName</key>
-    <string>ScreenControl</string>
+    <string>KeepAgentAwake</string>
     <key>CFBundlePackageType</key>
     <string>APPL</string>
     <key>CFBundleShortVersionString</key>
-    <string>2.0</string>
+    <string>2.2</string>
     <key>CFBundleVersion</key>
-    <string>2</string>
+    <string>3</string>
     <key>LSMinimumSystemVersion</key>
-    <string>12.0</string>
+    <string>13.0</string>
     <key>LSUIElement</key>
     <true/>
     <key>NSHumanReadableCopyright</key>
     <string>Copyright © 2026</string>
     <key>NSAppleEventsUsageDescription</key>
-    <string>ScreenControl 需要控制键盘背光</string>
+    <string>KeepAgentAwake 需要控制键盘背光</string>
 </dict>
 </plist>
