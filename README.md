@@ -5,51 +5,55 @@
 <h1 align="center">KeepAgentAwake</h1>
 
 <p align="center">
-  <strong>原生 Swift / SwiftUI 菜单栏工具</strong>：在需要时防止 Mac 因空闲进入睡眠，并支持可配置的空闲熄屏、键盘背光调节与合盖相关电源选项。
+  <a href="README_zh.md">简体中文</a>
+</p>
+
+<p align="center">
+  <strong>Native Swift / SwiftUI menu bar app</strong> for macOS: prevent idle system sleep when you need it, with optional idle display sleep, keyboard backlight dimming, and lid-close power options.
 </p>
 
 <p align="center">
   <a href="https://github.com/toddwyl/KeepAgentAwake/releases">Releases</a>
   ·
-  <a href="#从源码构建">从源码构建</a>
+  <a href="#building-from-source">Building from source</a>
 </p>
 
 ---
 
-## 概览
+## Overview
 
-KeepAgentAwake 以**菜单栏图标**为主界面（`LSUIElement`，不占用 Dock），提供「**永不休眠**」开关与可选设置页。适合长时间下载、编译、演示或需要避免系统自动睡眠、又希望空闲时能关屏省电的场景。
+KeepAgentAwake lives in the **menu bar** (`LSUIElement`, no Dock icon) and offers a **“never sleep”** toggle plus an optional settings window. It fits long downloads, builds, demos, or any case where you want to avoid automatic sleep but still save power by turning the display off when idle.
 
 > [!NOTE]
-> 本应用通过 **IOKit 电源断言**、`caffeinate`、`pmset` 等系统能力工作；合盖相关选项若启用 `pmset disablesleep`，**仅在系统状态需要改变时**才会请求管理员密码（会先读取当前 `pmset` 状态再决定是否提权执行）。
+> The app uses **IOKit power assertions**, `caffeinate`, and `pmset`. If you enable lid-related options that use `pmset disablesleep`, an **administrator password is requested only when the system state must actually change**—the app reads the current `pmset` state first, then decides whether to elevate.
 
 ---
 
-## 功能
+## Features
 
-| 能力 | 说明 |
-|------|------|
-| **永不休眠** | 防止系统因**空闲**进入睡眠；可与「空闲后熄屏」组合，减轻长期强制亮屏带来的闪烁。 |
-| **空闲熄屏** | 可设定空闲若干秒/分钟后关闭显示器（或设为「永不」）；有操作时保持亮屏。 |
-| **键盘背光** | 在空闲触发熄屏时，可自动模拟多次「背光减小」键（效果因机型与系统策略而异）。 |
-| **合盖电源** | 可选通过 `pmset -a disablesleep` 影响合盖行为（需管理员授权，详见应用内说明）。 |
-| **快捷键** | **⌘⇧P** 切换永不休眠；**⌘⌃⎋** 在开启时紧急关闭永不休眠。 |
-| **菜单栏** | 左键：若存在主窗口则在显示/隐藏主窗口间切换，否则切换永不休眠；右键打开菜单。 |
+| Capability | Description |
+|------------|-------------|
+| **Never sleep** | Prevents **idle** system sleep; can be combined with “sleep display when idle” to reduce long-term full-brightness flicker. |
+| **Idle display off** | After N seconds/minutes of no input, turn displays off (or set to “never”); input keeps the screen on. |
+| **Keyboard backlight** | Optionally simulates repeated “brightness down” keys when idle triggers display sleep (effect varies by hardware and OS). |
+| **Lid / power** | Optional `pmset -a disablesleep` path for lid-close behavior (requires admin approval; see in-app text). |
+| **Shortcuts** | **⌘⇧P** toggles never-sleep; **⌘⌃⎋** emergency-off while active. |
+| **Menu bar** | **Left click:** if a main window exists, show/hide it; otherwise toggle never-sleep. **Right click:** menu. |
 
-状态栏图标会随模式变化（例如「系统默认」与「永不休眠」等），并可选择在状态栏显示已运行时长。
-
----
-
-## 系统要求
-
-- **macOS 13** 或更高（与 `Info.plist` 中 `LSMinimumSystemVersion` 一致）
-- **Xcode / Swift 命令行工具**（仅本地编译时需要）
+The status item reflects the current mode (e.g. system default vs never-sleep) and can show elapsed time.
 
 ---
 
-## 从源码构建
+## Requirements
 
-需要已安装 Swift 与 `swiftc`（Xcode Command Line Tools）。
+- **macOS 13** or later (matches `LSMinimumSystemVersion` in `Info.plist`)
+- **Xcode / Swift command-line tools** (only for building locally)
+
+---
+
+## Building from source
+
+You need Swift and `swiftc` (Xcode Command Line Tools).
 
 ```bash
 git clone https://github.com/toddwyl/KeepAgentAwake.git
@@ -58,44 +62,44 @@ chmod +x build.sh
 ./build.sh
 ```
 
-构建成功后，应用位于 `build/KeepAgentAwake.app`：
+The app bundle is written to `build/KeepAgentAwake.app`:
 
 ```bash
 open build/KeepAgentAwake.app
 ```
 
-也可将 `KeepAgentAwake.app` 拷贝到 `/Applications/` 使用。
+You can copy `KeepAgentAwake.app` to `/Applications/` if you like.
 
 > [!TIP]
-> `build.sh` 会调用 `tools/RenderAppIcon.swift` 生成图标并编译 `KeepAgentAwakeMain.swift`、`KeepAgentAwakeViews.swift`、`KeepAgentAwakeDelegate.swift`，无需 CocoaPods / SPM 依赖。
+> `build.sh` runs `tools/RenderAppIcon.swift` for the icon and compiles `KeepAgentAwakeMain.swift`, `KeepAgentAwakeViews.swift`, and `KeepAgentAwakeDelegate.swift`. No CocoaPods or SPM packages are required.
 
 ---
 
-## 权限与隐私
+## Permissions & privacy
 
-- **自动化 / Apple Events**：调暗键盘背光等功能可能触发系统对「控制其他应用」或相关自动化权限的提示，请以系统实际对话框为准。
-- **管理员密码**：仅在为使系统 `disablesleep` 等状态与选项一致而**必须**修改时，通过 AppleScript 请求提权；应用会尽量先读取当前电源设置再决定是否弹窗。
-- 若曾使用旧版 **ScreenControl**，首次启动会从 `ScreenControl.*` 的 UserDefaults 键**迁移**到 `KeepAgentAwake.*`（新键不存在时复制），避免丢失偏好设置。
+- **Automation / Apple Events**: Dimming keyboard backlight may trigger system prompts for controlling other apps or automation—follow what macOS shows.
+- **Administrator password**: AppleScript elevation runs **only when** changing `disablesleep` (or similar) is required to match your settings; the app prefers reading power settings first.
+- If you used the older **ScreenControl** build, the first launch **migrates** `ScreenControl.*` UserDefaults keys to `KeepAgentAwake.*` when the new key is missing, so preferences are preserved.
 
 ---
 
-## 仓库结构
+## Repository layout
 
 ```
 KeepAgentAwake/
-├── KeepAgentAwakeMain.swift    # SwiftUI @main 入口
-├── KeepAgentAwakeViews.swift   # 主窗口界面
-├── KeepAgentAwakeDelegate.swift # AppDelegate、电源与菜单栏逻辑
+├── KeepAgentAwakeMain.swift     # SwiftUI @main entry
+├── KeepAgentAwakeViews.swift    # Main window UI
+├── KeepAgentAwakeDelegate.swift # AppDelegate, power & menu bar
 ├── Info.plist
 ├── build.sh
 ├── tools/
-│   └── RenderAppIcon.swift     # 构建时生成 AppIcon
+│   └── RenderAppIcon.swift      # Generates AppIcon at build time
 └── assets/
-    └── readme-icon.png         # README 用图标
+    └── readme-icon.png          # Icon used in README
 ```
 
 ---
 
-## 卸载
+## Uninstall
 
-从「应用程序」中移除 `KeepAgentAwake.app` 即可。若曾在系统设置中为该应用授予过辅助功能、自动化等权限，可在 **系统设置 → 隐私与安全性** 中按需移除。
+Remove `KeepAgentAwake.app` from Applications. If you granted Accessibility, Automation, or other permissions, revoke them under **System Settings → Privacy & Security** as needed.
